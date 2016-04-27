@@ -3,7 +3,7 @@ describe('Unit Test', function () {
     var allDigitsLcdStrings;
 
     beforeEach(function () {
-        number = '910';
+        number = 1234;
         allDigitsLcdStrings = loadAllDigitsLcdStrings();
     });
     
@@ -11,7 +11,7 @@ describe('Unit Test', function () {
         
         it('should print correct character array', function () {
             
-            expect(buildCharacters(number)).toEqual(['9', '1', '0']);
+            expect(buildCharacters(number)).toEqual(['1', '2', '3', '4']);
         });
     });
     
@@ -20,12 +20,13 @@ describe('Unit Test', function () {
         it('should print correct lcdDigits', function () {
             var expectLcdDigits =
                 [
-                    ['._.', '|_|', '..|'],
                     ['...', '..|', '..|'],
-                    ['._.', '|.|', '|_|']
+                    ['._.', '._|', '|_.'],
+                    ['._.', '._|', '._|'],
+                    ['...', '|_|', '..|']
                 ];
 
-            expect(buildLcdDigits(['9', '1', '0'], allDigitsLcdStrings)).toEqual(expectLcdDigits);
+            expect(buildLcdDigits(['1', '2', '3', '4'], allDigitsLcdStrings)).toEqual(expectLcdDigits);
         });
     });
 
@@ -38,9 +39,9 @@ describe('Unit Test', function () {
             printLcdString(number);
 
             var expectLcdString =
-                '._.'+ ' ' + '...' + ' ' + '._.\n' +
-                '|_|' + ' ' + '..|' + ' ' + '|.|\n' +
-                '..|' + ' ' + '..|' + ' ' + '|_|';
+                '...' + ' ' + '._.' + ' ' + '._.' + ' ' + '...\n' +
+                '..|' + ' ' + '._|' + ' ' + '._|' + ' ' + '|_|\n' +
+                '..|' + ' ' + '|_.' + ' ' + '._|' + ' ' + '..|';
 
             expect(console.log).toHaveBeenCalledWith(expectLcdString);
         });
