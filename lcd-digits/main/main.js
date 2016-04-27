@@ -10,7 +10,7 @@ function printLcdString(number) {
 
 function buildCharacters(number) {
 
-    return number.split('');
+    return number.toString().split('');
 }
 
 function findLcdStrings(characters, allDigitsLcdStrings) {
