@@ -18,23 +18,12 @@ describe('Unit Test', function () {
     describe('build a array of called lcdDigits', function () {
 
         it('should print correct lcdDigits', function () {
-            var expectLcdDigits = [
-                {
-                    firstString: '._.',
-                    secondString:'|_|',
-                    thirdString: '..|'
-                },
-                {
-                    firstString: '...',
-                    secondString:'..|',
-                    thirdString: '..|'
-                },
-                {
-                    firstString: '._.',
-                    secondString:'|.|',
-                    thirdString: '|_|'
-                }
-            ];
+            var expectLcdDigits =
+                [
+                    ['._.', '|_|', '..|'],
+                    ['...', '..|', '..|'],
+                    ['._.', '|.|', '|_|']
+                ];
 
             expect(buildLcdDigits(['9', '1', '0'], allDigitsLcdStrings)).toEqual(expectLcdDigits);
         });

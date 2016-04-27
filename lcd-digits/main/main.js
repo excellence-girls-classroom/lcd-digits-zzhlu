@@ -26,14 +26,8 @@ function findLcdStrings(characters, allDigitsLcdStrings) {
 function buildLcdDigits(characters, allDigitsLcdStrings) {
 
     var lcdDigits = [];
-
     characters.forEach(function (character) {
-        var lcdStrings = findLcdStrings(character, allDigitsLcdStrings);
-        lcdDigits.push({
-            firstString: lcdStrings[0],
-            secondString: lcdStrings[1],
-            thirdString: lcdStrings[2]
-        });
+        lcdDigits.push(findLcdStrings(character, allDigitsLcdStrings));
     });
 
     return lcdDigits;
@@ -41,45 +35,18 @@ function buildLcdDigits(characters, allDigitsLcdStrings) {
 
 function generateLcdString(lcdDigits) {
 
-    return generateFirstLineLcdString(lcdDigits) +
-        generateSecondLineLcdString(lcdDigits) +
-        generateThirdLineLcdString(lcdDigits);
-}
+    var lcdString = '';
 
-function generateFirstLineLcdString(lcdDigits) {
+    for (var k = 0; k < 3; k++) {
+        for (var i = 0; i < lcdDigits.length - 1; i++) {
+            lcdString += lcdDigits[i][k] + ' ';
+        }
+        lcdString += lcdDigits[lcdDigits.length - 1][k];
 
-    var firstLineLcdString = '';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        firstLineLcdString += lcdDigits[i].firstString;
-        if (i < lcdDigits.length - 1)
-            firstLineLcdString += ' ';
+        if (k < 2)
+            lcdString += '\n';
     }
-
-    return firstLineLcdString;
-}
-
-function generateSecondLineLcdString(lcdDigits) {
-
-    var secondLineLcdString = '\n';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        secondLineLcdString += lcdDigits[i].secondString;
-        if (i < lcdDigits.length - 1)
-            secondLineLcdString += ' ';
-    }
-
-    return secondLineLcdString;
-}
-
-function generateThirdLineLcdString(lcdDigits) {
-
-    var thirdLineLcdString = '\n';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        thirdLineLcdString += lcdDigits[i].thirdString;
-        if (i < lcdDigits.length - 1)
-            thirdLineLcdString += ' ';
-    }
-
-    return thirdLineLcdString;
+    return lcdString;
 }
 
 function loadAllDigitsLcdStrings() {
