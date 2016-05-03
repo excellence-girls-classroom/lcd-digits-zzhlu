@@ -1,33 +1,27 @@
 function printLcdString(number) {
 
-    var characters = buildCharacters(number);
-    var allDigitsLcdStrings = loadAllDigitsLcdStrings();
-    var lcdDigits = buildLcdDigits(characters, allDigitsLcdStrings);
-
+    var lcdDigits = buildLcdDigits(buildSplitNumbers(number), loadAllDigitsLcdStrings());
     var lcdString = generateLcdString(lcdDigits);
     console.log(lcdString);
 }
 
-function buildCharacters(number) {
+function buildSplitNumbers(number) {
 
-    return number.toString().split('');
+    var splitNumbers = number.toString().split('');
+
+    splitNumbers.forEach(function (splitNumber) {
+        splitNumber = parseInt(splitNumber);
+    });
+
+    return splitNumbers;
 }
 
-function findLcdStrings(characters, allDigitsLcdStrings) {
-
-    for (var i = 0; i < characters.length; i++) {
-        for (var k = 0; k < allDigitsLcdStrings.length; k++) {
-            if (allDigitsLcdStrings[k].digit === characters[i])
-                return allDigitsLcdStrings[k].lcdStrings;
-        }
-    }
-}
-
-function buildLcdDigits(characters, allDigitsLcdStrings) {
+function buildLcdDigits(splitNumbers, allDigitsLcdStrings) {
 
     var lcdDigits = [];
-    characters.forEach(function (character) {
-        lcdDigits.push(findLcdStrings(character, allDigitsLcdStrings));
+
+    splitNumbers.forEach(function (splitNumber) {
+        lcdDigits.push(allDigitsLcdStrings[splitNumber]);
     });
 
     return lcdDigits;
@@ -37,59 +31,38 @@ function generateLcdString(lcdDigits) {
 
     var lcdString = '';
 
-    for (var k = 0; k < 3; k++) {
-        for (var i = 0; i < lcdDigits.length - 1; i++) {
-            lcdString += lcdDigits[i][k] + ' ';
-        }
-        lcdString += lcdDigits[lcdDigits.length - 1][k];
-
-        if (k < 2)
+    for (var line = 0; line < 3; line++) {
+        lcdString += generateEveryLineLcdString(lcdDigits, line);
+        if (line < 2)
             lcdString += '\n';
     }
+    
     return lcdString;
 }
 
+function generateEveryLineLcdString(lcdDigits, line) {
+
+    var EveryLineLcdString = '';
+
+    for (var i = 0; i < lcdDigits.length - 1; i++) {
+        EveryLineLcdString += lcdDigits[i][line] + ' ';
+    }
+    EveryLineLcdString += lcdDigits[lcdDigits.length - 1][line];
+
+    return EveryLineLcdString;
+}
+
 function loadAllDigitsLcdStrings() {
-    return [
-        {
-            digit: '0',
-            lcdStrings: ['._.', '|.|', '|_|']
-        },
-        {
-            digit: '1',
-            lcdStrings: ['...', '..|', '..|']
-        },
-        {
-            digit: '2',
-            lcdStrings: ['._.', '._|', '|_.']
-        },
-        {
-            digit: '3',
-            lcdStrings: ['._.', '._|', '._|']
-        },
-        {
-            digit: '4',
-            lcdStrings: ['...', '|_|', '..|']
-        },
-        {
-            digit: '5',
-            lcdStrings: ['._.', '|_.', '._|']
-        },
-        {
-            digit: '6',
-            lcdStrings: ['._.', '|_.', '|_|']
-        },
-        {
-            digit: '7',
-            lcdStrings: ['._.', '..|', '..|']
-        },
-        {
-            digit: '8',
-            lcdStrings: ['._.', '|_|', '|_|']
-        },
-        {
-            digit: '9',
-            lcdStrings: ['._.', '|_|', '..|']
-        }
-    ];
+    return {
+        0: ['._.', '|.|', '|_|'],
+        1: ['...', '..|', '..|'],
+        2: ['._.', '._|', '|_.'],
+        3: ['._.', '._|', '._|'],
+        4: ['...', '|_|', '..|'],
+        5: ['._.', '|_.', '._|'],
+        6: ['._.', '|_.', '|_|'],
+        7: ['._.', '..|', '..|'],
+        8: ['._.', '|_|', '|_|'],
+        9: ['._.', '|_|', '..|']
+    }
 }
