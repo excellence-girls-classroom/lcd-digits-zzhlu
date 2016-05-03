@@ -1,25 +1,39 @@
 describe('Unit Testing', function () {
-    var number = 1234;
+    var number = 123;
+    
+    describe('buildSplitNumbers', function () {
         
-    it('should print correct character array', function () {
-        var characters = buildCharacters(number);
-        var expectCharacters = ['1', '2', '3', '4'];
+        it('should print correct splitNumbers', function () {
+            var splitNumbers = buildSplitNumbers(number);
+            var expectSplitNumbers = ['1', '2', '3'];
 
-        expect(characters).toEqual(expectCharacters);
+            expect(splitNumbers).toEqual(expectSplitNumbers);
+        });
     });
+    
+    describe('buildLcdDigits', function () {
 
-    it('should print correct lcdDigits', function () {
-        var lcdDigits = buildLcdDigits(['1', '2', '3', '4'], loadAllDigitsLcdStrings());
+        it('one number', function () {
+            var lcdDigits = buildLcdDigits(['1'], loadAllDigitsLcdStrings());
+            var expectLcdDigits = [['...', '..|', '..|']];
+
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
+
+        it('two numbers', function () {
+            var lcdDigits = buildLcdDigits(['1', '3'], loadAllDigitsLcdStrings());
+            var expectLcdDigits =
+                [['...', '..|', '..|'], ['._.', '._|', '._|']];
+
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
         
-        var expectLcdDigits =
-            [
-                ['...', '..|', '..|'],
-                ['._.', '._|', '|_.'],
-                ['._.', '._|', '._|'],
-                ['...', '|_|', '..|']
-            ];
+        it('three numbers', function () {
+            var lcdDigits = buildLcdDigits(['1', '2', '3'], loadAllDigitsLcdStrings());
+            var expectLcdDigits = [['...', '..|', '..|'], ['._.', '._|', '|_.'], ['._.', '._|', '._|']];
 
-        expect(lcdDigits).toEqual(expectLcdDigits);
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
     });
 });
 
