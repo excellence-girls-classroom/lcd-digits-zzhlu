@@ -2,18 +2,13 @@ function printLcdString(number) {
 
     var lcdDigits = buildLcdDigits(buildSplitNumbers(number), loadAllDigitsLcdStrings());
     var lcdString = generateLcdString(lcdDigits);
+
     console.log(lcdString);
 }
 
 function buildSplitNumbers(number) {
 
-    var splitNumbers = number.toString().split('');
-
-    splitNumbers.forEach(function (splitNumber) {
-        splitNumber = parseInt(splitNumber);
-    });
-
-    return splitNumbers;
+    return number.toString().split('');
 }
 
 function buildLcdDigits(splitNumbers, allDigitsLcdStrings) {
@@ -33,23 +28,24 @@ function generateLcdString(lcdDigits) {
 
     for (var line = 0; line < 3; line++) {
         lcdString += generateEveryLineLcdString(lcdDigits, line);
-        if (line < 2)
+        if (line < 2) {
             lcdString += '\n';
+        }
     }
-    
+
     return lcdString;
 }
 
 function generateEveryLineLcdString(lcdDigits, line) {
 
-    var EveryLineLcdString = '';
+    var everyLineLcdString = '';
 
     for (var i = 0; i < lcdDigits.length - 1; i++) {
-        EveryLineLcdString += lcdDigits[i][line] + ' ';
+        everyLineLcdString += lcdDigits[i][line] + ' ';
     }
-    EveryLineLcdString += lcdDigits[lcdDigits.length - 1][line];
+    everyLineLcdString += lcdDigits[lcdDigits.length - 1][line];
 
-    return EveryLineLcdString;
+    return everyLineLcdString;
 }
 
 function loadAllDigitsLcdStrings() {
