@@ -1,39 +1,24 @@
 function printLcdString(number) {
 
-    var characters = buildCharacters(number);
+    var splitNumbers = buildSplitNumbers(number);
     var allDigitsLcdStrings = loadAllDigitsLcdStrings();
-    var lcdDigits = buildLcdDigits(characters, allDigitsLcdStrings);
-
+    var lcdDigits = buildLcdDigits(splitNumbers, allDigitsLcdStrings);
     var lcdString = generateLcdString(lcdDigits);
+
     console.log(lcdString);
 }
 
-function buildCharacters(number) {
+function buildSplitNumbers(number) {
 
-    return number.split('');
+    return number.toString().split('');
 }
 
-function findLcdStrings(characters, allDigitsLcdStrings) {
-
-    for (var i = 0; i < characters.length; i++) {
-        for (var k = 0; k < allDigitsLcdStrings.length; k++) {
-            if (allDigitsLcdStrings[k].digit === characters[i])
-                return allDigitsLcdStrings[k].lcdStrings;
-        }
-    }
-}
-
-function buildLcdDigits(characters, allDigitsLcdStrings) {
+function buildLcdDigits(splitNumbers, allDigitsLcdStrings) {
 
     var lcdDigits = [];
 
-    characters.forEach(function (character) {
-        var lcdStrings = findLcdStrings(character, allDigitsLcdStrings);
-        lcdDigits.push({
-            firstString: lcdStrings[0],
-            secondString: lcdStrings[1],
-            thirdString: lcdStrings[2]
-        });
+    splitNumbers.forEach(function (splitNumber) {
+        lcdDigits.push(allDigitsLcdStrings[splitNumber]);
     });
 
     return lcdDigits;
@@ -41,88 +26,41 @@ function buildLcdDigits(characters, allDigitsLcdStrings) {
 
 function generateLcdString(lcdDigits) {
 
-    return generateFirstLineLcdString(lcdDigits) +
-        generateSecondLineLcdString(lcdDigits) +
-        generateThirdLineLcdString(lcdDigits);
-}
+    var lcdString = '';
 
-function generateFirstLineLcdString(lcdDigits) {
-
-    var firstLineLcdString = '';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        firstLineLcdString += lcdDigits[i].firstString;
-        if (i < lcdDigits.length - 1)
-            firstLineLcdString += ' ';
+    for (var line = 0; line < 3; line++) {
+        lcdString += generateEveryLineLcdString(lcdDigits, line);
+        if (line < 2) {
+            lcdString += '\n';
+        }
     }
 
-    return firstLineLcdString;
+    return lcdString;
 }
 
-function generateSecondLineLcdString(lcdDigits) {
+function generateEveryLineLcdString(lcdDigits, line) {
 
-    var secondLineLcdString = '\n';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        secondLineLcdString += lcdDigits[i].secondString;
-        if (i < lcdDigits.length - 1)
-            secondLineLcdString += ' ';
+    var everyLineLcdString = '';
+
+    for (var i = 0; i < lcdDigits.length - 1; i++) {
+        everyLineLcdString += lcdDigits[i][line] + ' ';
     }
+    everyLineLcdString += lcdDigits[lcdDigits.length - 1][line];
 
-    return secondLineLcdString;
-}
-
-function generateThirdLineLcdString(lcdDigits) {
-
-    var thirdLineLcdString = '\n';
-    for (var i = 0; i < lcdDigits.length; i++) {
-        thirdLineLcdString += lcdDigits[i].thirdString;
-        if (i < lcdDigits.length - 1)
-            thirdLineLcdString += ' ';
-    }
-
-    return thirdLineLcdString;
+    return everyLineLcdString;
 }
 
 function loadAllDigitsLcdStrings() {
-    return [
-        {
-            digit: '0',
-            lcdStrings: ['._.', '|.|', '|_|']
-        },
-        {
-            digit: '1',
-            lcdStrings: ['...', '..|', '..|']
-        },
-        {
-            digit: '2',
-            lcdStrings: ['._.', '._|', '|_.']
-        },
-        {
-            digit: '3',
-            lcdStrings: ['._.', '._|', '._|']
-        },
-        {
-            digit: '4',
-            lcdStrings: ['...', '|_|', '..|']
-        },
-        {
-            digit: '5',
-            lcdStrings: ['._.', '|_.', '._|']
-        },
-        {
-            digit: '6',
-            lcdStrings: ['._.', '|_.', '|_|']
-        },
-        {
-            digit: '7',
-            lcdStrings: ['._.', '..|', '..|']
-        },
-        {
-            digit: '8',
-            lcdStrings: ['._.', '|_|', '|_|']
-        },
-        {
-            digit: '9',
-            lcdStrings: ['._.', '|_|', '..|']
-        }
-    ];
+    return {
+        0: ['._.', '|.|', '|_|'],
+        1: ['...', '..|', '..|'],
+        2: ['._.', '._|', '|_.'],
+        3: ['._.', '._|', '._|'],
+        4: ['...', '|_|', '..|'],
+        5: ['._.', '|_.', '._|'],
+        6: ['._.', '|_.', '|_|'],
+        7: ['._.', '..|', '..|'],
+        8: ['._.', '|_|', '|_|'],
+        9: ['._.', '|_|', '..|']
+    }
 }

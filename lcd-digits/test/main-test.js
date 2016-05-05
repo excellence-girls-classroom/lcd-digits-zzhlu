@@ -1,59 +1,74 @@
-describe('Unit Test', function () {
-    var number;
-    var allDigitsLcdStrings;
+describe('Unit Testing', function () {
+    var number = 123;
 
-    beforeEach(function () {
-        number = '910';
-        allDigitsLcdStrings = loadAllDigitsLcdStrings();
-    });
-    
-    describe('divide number to character array', function () {
-        
-        it('should print correct character array', function () {
-            
-            expect(buildCharacters(number)).toEqual(['9', '1', '0']);
-        });
-    });
-    
-    describe('build a array of called lcdDigits', function () {
+    describe('buildSplitNumbers', function () {
 
-        it('should print correct lcdDigits', function () {
-            var expectLcdDigits = [
-                {
-                    firstString: '._.',
-                    secondString:'|_|',
-                    thirdString: '..|'
-                },
-                {
-                    firstString: '...',
-                    secondString:'..|',
-                    thirdString: '..|'
-                },
-                {
-                    firstString: '._.',
-                    secondString:'|.|',
-                    thirdString: '|_|'
-                }
-            ];
+        it('should print correct splitNumbers', function () {
+            var splitNumbers = buildSplitNumbers(number);
+            var expectSplitNumbers = ['1', '2', '3'];
 
-            expect(buildLcdDigits(['9', '1', '0'], allDigitsLcdStrings)).toEqual(expectLcdDigits);
+            expect(splitNumbers).toEqual(expectSplitNumbers);
         });
     });
 
-    describe('generate lcd string', function () {
+    describe('buildLcdDigits', function () {
 
-        it('should print correct lcd string', function() {
+        it('should print correct one number', function () {
+            var lcdDigits = buildLcdDigits(['1'], loadAllDigitsLcdStrings());
+            var expectLcdDigits = [['...', '..|', '..|']];
 
-            spyOn(console, 'log');
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
 
-            printLcdString(number);
+        it('should print correct two numbers', function () {
+            var lcdDigits = buildLcdDigits(['1', '3'], loadAllDigitsLcdStrings());
+            var expectLcdDigits =
+                [['...', '..|', '..|'], ['._.', '._|', '._|']];
 
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
+
+        it('should print correct three numbers', function () {
+            var lcdDigits = buildLcdDigits(['1', '2', '3'], loadAllDigitsLcdStrings());
+            var expectLcdDigits = [['...', '..|', '..|'], ['._.', '._|', '|_.'], ['._.', '._|', '._|']];
+
+            expect(lcdDigits).toEqual(expectLcdDigits);
+        });
+    });
+
+    describe('generateLcdString', function () {
+
+        it('should generate correct lcdString', function () {
+            var lcdString = generateLcdString([
+                ['._.', '..|', '..|'],
+                ['._.', '|_|', '|_|'],
+                ['._.', '|_|', '..|'],
+                ['._.', '|.|', '|_|']
+            ]);
             var expectLcdString =
-                '._.'+ ' ' + '...' + ' ' + '._.\n' +
-                '|_|' + ' ' + '..|' + ' ' + '|.|\n' +
-                '..|' + ' ' + '..|' + ' ' + '|_|';
+                '._.' + ' ' + '._.' + ' ' + '._.' + ' ' + '._.' + '\n' +
+                '..|' + ' ' + '|_|' + ' ' + '|_|' + ' ' + '|.|' + '\n' +
+                '..|' + ' ' + '|_|' + ' ' + '..|' + ' ' + '|_|';
 
-            expect(console.log).toHaveBeenCalledWith(expectLcdString);
+            expect(lcdString).toEqual(expectLcdString);
         });
+    });
+});
+
+describe('Integration Testing', function () {
+    var number = 1234;
+
+    it('should print correct lcd string', function () {
+
+        spyOn(console, 'log');
+
+        printLcdString(number);
+
+        var expectLcdString =
+            '...' + ' ' + '._.' + ' ' + '._.' + ' ' + '...' + '\n' +
+            '..|' + ' ' + '._|' + ' ' + '._|' + ' ' + '|_|' + '\n' +
+            '..|' + ' ' + '|_.' + ' ' + '._|' + ' ' + '..|';
+
+        expect(console.log).toHaveBeenCalledWith(expectLcdString);
     });
 });
