@@ -1,6 +1,8 @@
 function printLcdString(number) {
 
-    var lcdDigits = buildLcdDigits(buildSplitNumbers(number), loadAllDigitsLcdStrings());
+    var splitNumbers = buildSplitNumbers(number);
+    var allDigitsLcdStrings = loadAllDigitsLcdStrings();
+    var lcdDigits = buildLcdDigits(splitNumbers, allDigitsLcdStrings);
     var lcdString = generateLcdString(lcdDigits);
 
     console.log(lcdString);
